@@ -13,10 +13,35 @@
             justify-content: center;
             align-items: center;
             background-color: #0C090A;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #0C090A 100%);
             overflow: hidden;
             perspective: 1000px;
             flex-direction: column;
             gap: 2rem;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background-color: white;
+            pointer-events: none;
+            animation: sparkleFloat 3s linear infinite;
+        }
+
+        @keyframes sparkleFloat {
+            0% {
+                transform: translateY(0) scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
         }
 
         .heart {
@@ -28,6 +53,7 @@
             grid-template-columns: repeat(11, 1fr);
             grid-template-rows: repeat(10, 1fr);
             transform-style: preserve-3d;
+            filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.3));
         }
 
         .pixel {
@@ -37,7 +63,9 @@
         }
 
         .pixel.red {
-            background: red;
+            background: linear-gradient(45deg, #ff0000, #ff4444);
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+            transition: all 0.3s ease;
         }
 
         .pixel.white {
@@ -55,7 +83,7 @@
 
         .button {
             padding: 15px 25px;
-            background: #4a4a4a;
+            background: linear-gradient(45deg, #4a4a4a, #2a2a2a);
             border: 1px solid #ffffff;
             color: white;
             font-family: 'Press Start 2P', cursive;
@@ -63,13 +91,31 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             text-shadow: 2px 2px 0px #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+
+        .button:hover::after {
+            transform: rotate(45deg) translate(50%, 50%);
         }
 
         .button:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
 
         .button:active {
@@ -96,69 +142,124 @@
 
         .letter {
             background: #fff;
-            padding: 40px;
+            padding: 50px;
             width: 90%;
             max-width: 500px;
             position: relative;
             font-family: 'Courier New', monospace;
             line-height: 1.6;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            background-image: linear-gradient(#fff 1px, transparent 1px);
-            background-size: 100% 2em;
-            border: 1px solid #ddd;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            background-image: 
+                linear-gradient(90deg, rgba(200,200,200,0.2) 1px, transparent 1px),
+                linear-gradient(rgba(200,200,200,0.2) 1px, transparent 1px);
+            background-size: 20px 20px;
+            border: none;
+            border-radius: 20px;
             max-height: 85vh;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            border-radius: 15px;
             -webkit-user-select: none;
             user-select: none;
         }
 
-        .letter-content {
-            margin-top: 20px;
-            font-size: 16px;
+        .letter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            opacity: 0.1;
+            border-radius: 20px 20px 100% 100%;
+        }
+
+        .letter-header {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 40px;
+            font-family: 'Press Start 2P', cursive;
             color: #333;
-            -webkit-user-select: text;
-            user-select: text;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .letter-date {
             text-align: right;
             margin-bottom: 30px;
+            font-style: italic;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .letter-content {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #444;
+            line-height: 2;
+            padding: 0 10px;
+            text-align: justify;
+            font-family: 'Courier New', monospace;
+        }
+
+        .letter-content br {
+            margin-bottom: 15px;
+            display: block;
+            content: "";
         }
 
         .letter-closing {
             margin-top: 40px;
             text-align: right;
+            font-style: italic;
+            color: #666;
         }
 
         .close-button {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 15px;
+            right: 15px;
             background: none;
             border: none;
             font-size: 24px;
             cursor: pointer;
-            color: #333;
-            font-family: Arial, sans-serif;
+            color: #666;
+            opacity: 0.7;
+            transition: all 0.3s ease;
             z-index: 2;
-            padding: 8px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 50%;
-            transition: background-color 0.2s;
-            -webkit-tap-highlight-color: transparent;
+            background: rgba(255, 255, 255, 0.9);
         }
 
-        .close-button:active {
-            background-color: rgba(0, 0, 0, 0.1);
+        .close-button:hover {
+            opacity: 1;
+            transform: rotate(90deg);
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .letter-header {
-            text-align: center;
-            font-size: 20px;
-            margin-bottom: 30px;
-            font-family: 'Press Start 2P', cursive;
-            color: #333;
+        /* Custom scrollbar for the letter */
+        .letter::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .letter::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+
+        .letter::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .letter::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
         }
 
         /* iPhone-specific styles */
@@ -290,17 +391,17 @@
         </script>
     </div>
 
-    <button class="button" onclick="openModal()">THAT'S THAT</button>
+    <button class="button" onclick="openModal()">Open</button>
 
     <div class="modal" id="letterModal">
         <div class="letter">
             <button class="close-button" onclick="closeModal()">×</button>
-            <div class="letter-header">❤ A Love Letter ❤</div>
+            <div class="letter-header">❤ The Letter ❤</div>
             <div class="letter-date">February 14, 2025</div>
             <div class="letter-content">
                 Dear Akka 💝,<br><br>
                 
-                At this point, there's nothing we've spoken about or shared that compares to the bond I've found with you ✨. I truly cherish the connection we have, and I'm so grateful for it 🙏.<br><br>
+                At this point, there's nothing we haven't spoken or shared ✨. I truly cherish the connection we have, and I'm so grateful for it 🙏.<br><br>
                 
                 Every Valentine's Day, I reflect on how amazing this bond is 💫, and this year, I want to celebrate it with a heart full of gratitude and light ❤️.<br><br>
                 
@@ -330,6 +431,37 @@
                 closeModal();
             }
         });
+
+        // Create sparkles
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * window.innerWidth + 'px';
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 3000);
+        }
+
+        // Create sparkles periodically
+        setInterval(createSparkle, 300);
+
+        // Make heart pixels pulse randomly
+        function pulseHeartPixels() {
+            const redPixels = document.querySelectorAll('.pixel.red');
+            redPixels.forEach(pixel => {
+                if (Math.random() < 0.1) {
+                    pixel.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        pixel.style.transform = 'scale(1)';
+                    }, 300);
+                }
+            });
+        }
+
+        // Pulse heart pixels periodically
+        setInterval(pulseHeartPixels, 1000);
     </script>
 </body>
 </html>
